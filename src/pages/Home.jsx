@@ -1,7 +1,8 @@
-// Commit message: "Add sorting functionality by price and date added"
+// Commit message: "Add pagination functionality with next/previous buttons"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+import ProductCard from '../components/ProductCard';
 
 function Home() {
     const [products, setProducts] = useState([]);
@@ -125,22 +126,31 @@ function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.length > 0 ? (
                     products.map((product) => (
-                        <div key={product._id} className="bg-white shadow-md rounded-lg p-4">
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full h-48 object-cover rounded-md mb-4"
-                            />
-                            <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-                            <p className="text-gray-600 mb-2">{product.description}</p>
-                            <p className="font-bold text-lg mb-2">${product.price}</p>
-                            <p className="text-sm text-gray-500 mb-2">Rating: {product.rating} ⭐</p>
-                            <p className="text-sm text-gray-500">Added on: {new Date(product.createdAt).toLocaleDateString()}</p>
-                        </div>
+                        <ProductCard key={product._id} product={product} />
                     ))
                 ) : (
                     <p className="col-span-full text-center text-gray-500">No products found</p>
                 )}
+            </div>
+            {/* Pagination */}
+            <div className="flex justify-center items-center mt-8 space-x-4">
+                <button
+                    disabled={page <= 1}
+                    onClick={() => setPage(page - 1)}
+                    className="bg-gray-200 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-300 disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span className="text-gray-700">
+                    Page {page} of {totalPages}
+                </span>
+                <button
+                    disabled={page >= totalPages}
+                    onClick={() => setPage(page + 1)}
+                    className="bg-gray-200 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-300 disabled:opacity-50"
+                >
+                    Next
+                </button>
             </div>
         </div>
     );
