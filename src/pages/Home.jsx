@@ -1,4 +1,4 @@
-// Commit message: "Implement brand and category filters"
+// Commit message: "Add price filtering functionality"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
@@ -11,6 +11,8 @@ function Home() {
     const [filters, setFilters] = useState({
         brands: [],
         categories: [],
+        priceMin: '',
+        priceMax: '',
     });
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -44,6 +46,8 @@ function Home() {
                         search: searchTerm,
                         brand: selectedBrands,
                         category: selectedCategories,
+                        priceMin: filters.priceMin,
+                        priceMax: filters.priceMax,
                     }
                 });
                 setProducts(response.data.products);
@@ -88,6 +92,22 @@ function Home() {
                     isMulti
                     className="w-full"
                 />
+                <div className="flex space-x-2">
+                    <input
+                        type="number"
+                        value={filters.priceMin}
+                        onChange={(e) => setFilters({ ...filters, priceMin: e.target.value })}
+                        placeholder="Min Price"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                        type="number"
+                        value={filters.priceMax}
+                        onChange={(e) => setFilters({ ...filters, priceMax: e.target.value })}
+                        placeholder="Max Price"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
             </div>
             {/* Product List */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
