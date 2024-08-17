@@ -26,25 +26,6 @@ Check out the live version of the application [here](https://your-deployed-app.v
 - **Pagination:** Efficient pagination to navigate through products.
 - **Loading Indicators:** User-friendly loading indicators while fetching data.
 
-## Installation
-
-To run this project locally, follow these steps:
-
-### Prerequisites
-
-- Node.js installed on your machine.
-
-### Clone the repository
-
-```bash
-git clone https://github.com/ShopnilIsCoding/SCIC-Client.git
-cd product-store-client
-### Install Dependencies
-
-To install the necessary dependencies for this project, run the following command in your terminal:
-
-```bash
-npm install
 ## Usage
 
 - **Home Page:** Browse products and use the search and filter options to find products.
@@ -64,3 +45,25 @@ npm install
 ## Deployment
 
 This project can be deployed using platforms like Vercel or Netlify. Ensure that you set up the environment variables in the deployment platform's settings.
+
+## Installation
+
+To run this project locally, follow these steps:
+
+### Prerequisites
+
+- Node.js installed on your machine.
+
+### Clone the repository
+
+```bash
+git clone https://github.com/ShopnilIsCoding/SCIC-Client.git
+cd product-store-client 
+```
+### Install Dependencies
+
+To install the necessary dependencies for this project, run the following command in your terminal:
+
+```bash
+npm install
+```
