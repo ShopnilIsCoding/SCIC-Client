@@ -2,8 +2,27 @@ import React from 'react';
 import { FaStar, FaCartPlus } from 'react-icons/fa';
 import { MdOutlineCategory } from 'react-icons/md';
 import { AiFillTag } from 'react-icons/ai';
+import { toast } from 'react-toastify';
 
 function ProductCard({ product }) {
+    const addToCart = () => {
+        // Get existing cart data from local storage
+        const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Add new product to the cart
+        const newCart = [...existingCart, {
+            name: product.name,
+            price: product.price,
+            category: product.category
+        }];
+
+        // Store updated cart data in local storage
+        localStorage.setItem('cart', JSON.stringify(newCart));
+
+        // Optionally, display a confirmation message
+        toast.success(`${product.name} has been added to your cart!`);
+    };
+
     return (
         <div className="bg-white shadow-lg rounded-lg p-6 transform transition-transform duration-300 hover:scale-105">
             <div className="relative">
@@ -20,7 +39,10 @@ function ProductCard({ product }) {
             <p className="text-gray-600 mb-2">{product.description}</p>
             <div className="flex items-center justify-between">
                 <p className="font-bold text-lg text-blue-500">${product.price}</p>
-                <button className="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition-colors duration-300">
+                <button
+                    onClick={addToCart}
+                    className="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition-colors duration-300"
+                >
                     <FaCartPlus />
                 </button>
             </div>

@@ -9,6 +9,7 @@ import PrivateRoutes from './Routes/PrivateRoutes';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Root from './Layout/Root';
+import MyCart from './pages/MyCart';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path:'/',
         element:<Home></Home>
+      },
+      {
+        path:'/cart',
+        element:<MyCart></MyCart>
       }
     ]
   },
