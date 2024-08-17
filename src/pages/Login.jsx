@@ -3,12 +3,14 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { signIn, googleLogin, createUser, updateUserProfile } = useContext(AuthContext);
   const [signUp, setSignUp] = useState(false);
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
+  const navigate = useNavigate();  // Use navigate for redirect
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ const Login = () => {
     signIn(email, password)
       .then(() => {
         toast.success("Successfully logged in");
+        navigate('/');  // Redirect after successful login
       })
       .catch(() => {
         toast.warning("Invalid Credentials");
@@ -56,6 +59,7 @@ const Login = () => {
         updateUserProfile(name, photo)
           .then(() => {
             toast.success('Registered Successfully');
+            navigate('/');  // Redirect after successful registration
           })
           .catch(() => {
             toast.error('Failed to update profile');
@@ -76,7 +80,10 @@ const Login = () => {
             <div className="flex justify-around items-center my-4">
               <button
                 onClick={() => googleLogin()
-                  .then(() => toast.success("Successfully logged in"))
+                  .then(() => {
+                    toast.success("Successfully logged in");
+                    navigate('/');  // Redirect after successful Google login
+                  })
                   .catch(() => toast.error("Google login failed"))
                 }
                 className="flex items-center gap-2 bg-gray-200 px-4 py-2 rounded-md w-full justify-center"
