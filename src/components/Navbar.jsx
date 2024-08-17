@@ -25,7 +25,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-white py-4">
+    <div className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
         {/* Website Name */}
         <Link to="/" className="text-2xl font-bold">

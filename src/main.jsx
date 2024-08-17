@@ -8,11 +8,18 @@ import AuthProvider from './Providers/AuthProvider';
 import PrivateRoutes from './Routes/PrivateRoutes';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Root from './Layout/Root';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRoutes><Home></Home></PrivateRoutes>,
+    element: <PrivateRoutes><Root></Root></PrivateRoutes>,
+    children:[
+      {
+        path:'/',
+        element:<Home></Home>
+      }
+    ]
   },
   {
     path:"/login",
