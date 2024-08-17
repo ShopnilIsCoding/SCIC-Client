@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 import ProductCard from '../components/ProductCard';
+import Navbar from '../components/Navbar';
 
 function Home() {
     const [products, setProducts] = useState([]);
@@ -63,6 +64,8 @@ function Home() {
     }, [page, searchTerm, filters]);
 
     return (
+        <>
+        <Navbar></Navbar>
         <div className="container mx-auto px-4 py-6">
             <h1 className="text-4xl font-bold text-center mb-8">Product Store</h1>
             {/* Search Bar */}
@@ -152,7 +155,7 @@ function Home() {
                     Next
                 </button>
             </div>
-        </div>
+        </div></>
     );
 }
 

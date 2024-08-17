@@ -4,13 +4,15 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import { ToastContainer } from 'react-toastify';
 import AuthProvider from './Providers/AuthProvider';
+import PrivateRoutes from './Routes/PrivateRoutes';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>,
+    element: <PrivateRoutes><Home></Home></PrivateRoutes>,
   },
   {
     path:"/login",
