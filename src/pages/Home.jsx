@@ -1,19 +1,50 @@
-// Commit message: "Add search functionality to filter products by name"
+// Commit message: "Implement brand and category filters"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Select from 'react-select';
 
 function Home() {
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
+    const [filters, setFilters] = useState({
+        brands: [],
+        categories: [],
+    });
+    const [brands, setBrands] = useState([]);
+    const [categories, setCategories] = useState([]);
 
-    // Fetch products with search term
+    // Fetch available brands and categories for filtering
+    useEffect(() => {
+        const fetchBrandsAndCategories = async () => {
+            try {
+                const brandResponse = await axios.get('http://localhost:5000/api/brands');
+                const categoryResponse = await axios.get('http://localhost:5000/api/categories');
+                setBrands(brandResponse.data.map(brand => ({ label: brand, value: brand })));
+                setCategories(categoryResponse.data.map(category => ({ label: category, value: category })));
+            } catch (error) {
+                console.error('Failed to fetch brands and categories', error);
+            }
+        };
+        fetchBrandsAndCategories();
+    }, []);
+
+    // Fetch products with pagination, search, and filters
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                const selectedBrands = filters.brands.map(b => b.value).join(',');
+                const selectedCategories = filters.categories.map(c => c.value).join(',');
+
                 const response = await axios.get('http://localhost:5000/api/products', {
-                    params: { page, limit: 10, search: searchTerm }
+                    params: {
+                        page,
+                        limit: 10,
+                        search: searchTerm,
+                        brand: selectedBrands,
+                        category: selectedCategories,
+                    }
                 });
                 setProducts(response.data.products);
                 setTotalPages(response.data.pages);
@@ -22,7 +53,7 @@ function Home() {
             }
         };
         fetchProducts();
-    }, [page, searchTerm]);
+    }, [page, searchTerm, filters]);
 
     return (
         <div className="container mx-auto px-4 py-6">
@@ -35,6 +66,27 @@ function Home() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search products..."
                     className="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </div>
+            {/* Filters */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <Select
+                    value={filters.brands}
+                    onChange={(selectedOptions) => setFilters({ ...filters, brands: selectedOptions || [] })}
+                    options={brands}
+                    placeholder="Filter by Brand"
+                    isClearable
+                    isMulti
+                    className="w-full"
+                />
+                <Select
+                    value={filters.categories}
+                    onChange={(selectedOptions) => setFilters({ ...filters, categories: selectedOptions || [] })}
+                    options={categories}
+                    placeholder="Filter by Category"
+                    isClearable
+                    isMulti
+                    className="w-full"
                 />
             </div>
             {/* Product List */}
