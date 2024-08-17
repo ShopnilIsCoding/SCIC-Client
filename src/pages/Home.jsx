@@ -1,4 +1,4 @@
-// Commit message: "Add price filtering functionality"
+// Commit message: "Add sorting functionality by price and date added"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
@@ -13,6 +13,7 @@ function Home() {
         categories: [],
         priceMin: '',
         priceMax: '',
+        sortBy: ''
     });
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -32,7 +33,7 @@ function Home() {
         fetchBrandsAndCategories();
     }, []);
 
-    // Fetch products with pagination, search, and filters
+    // Fetch products with pagination, search, filters, and sorting
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -48,6 +49,7 @@ function Home() {
                         category: selectedCategories,
                         priceMin: filters.priceMin,
                         priceMax: filters.priceMax,
+                        sortBy: filters.sortBy,
                     }
                 });
                 setProducts(response.data.products);
@@ -108,6 +110,16 @@ function Home() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
+                <select
+                    value={filters.sortBy}
+                    onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="">Sort By</option>
+                    <option value="priceAsc">Price: Low to High</option>
+                    <option value="priceDesc">Price: High to Low</option>
+                    <option value="dateAdded">Newest First</option>
+                </select>
             </div>
             {/* Product List */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
